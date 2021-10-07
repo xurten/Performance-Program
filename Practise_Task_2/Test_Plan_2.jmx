@@ -61,7 +61,7 @@
           </elementProp>
           <elementProp name="GENERAL_POST_NUMBER" elementType="Argument">
             <stringProp name="Argument.name">GENERAL_POST_NUMBER</stringProp>
-            <stringProp name="Argument.value">2000</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -353,28 +353,6 @@ if (number_of_posts.mod(number_of_users) == 0 ){
             <hashTree/>
           </hashTree>
         </hashTree>
-        <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Calculate dynamic posts numbers" enabled="true">
-          <stringProp name="cacheKey">true</stringProp>
-          <stringProp name="filename"></stringProp>
-          <stringProp name="parameters"></stringProp>
-          <stringProp name="script">import java.lang.Math;
-
-
-def number_of_posts = vars.get(&quot;POSTS_NUMBER_1000&quot;).toInteger()
-def number_of_users = vars.get(&quot;USER_NUMBER&quot;).toInteger()
-
-if (number_of_posts.mod(number_of_users) == 0 ){
-	vars.put(&quot;POSTS_NUMBER&quot;, (Math.floor(number_of_posts/number_of_users).toInteger()).toString())
-	vars.put(&quot;ADDITIONAL_POSTS_NUMBER&quot;, &quot;0&quot;)
-}else
-{
-	vars.put(&quot;POSTS_NUMBER&quot;, (Math.floor(number_of_posts/number_of_users).toInteger()).toString())
-	vars.put(&quot;ADDITIONAL_POSTS_NUMBER&quot;, number_of_posts.mod(number_of_users).toString())
-}
-</stringProp>
-          <stringProp name="scriptLanguage">groovy</stringProp>
-        </JSR223Sampler>
-        <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Additonal post numbers" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
