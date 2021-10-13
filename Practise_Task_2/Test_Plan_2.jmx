@@ -34,7 +34,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="URL" elementType="Argument">
             <stringProp name="Argument.name">URL</stringProp>
-            <stringProp name="Argument.value">10.0.2.15</stringProp>
+            <stringProp name="Argument.value">10.0.2.2</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="PROTOCOL" elementType="Argument">
@@ -49,17 +49,7 @@
           </elementProp>
           <elementProp name="POSTS_NUMBER" elementType="Argument">
             <stringProp name="Argument.name">POSTS_NUMBER</stringProp>
-            <stringProp name="Argument.value">0</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="GENERAL_POST_NUMBER" elementType="Argument">
-            <stringProp name="Argument.name">GENERAL_POST_NUMBER</stringProp>
-            <stringProp name="Argument.value">2000</stringProp>
-            <stringProp name="Argument.metadata">=</stringProp>
-          </elementProp>
-          <elementProp name="LOGIN_BUTTON" elementType="Argument">
-            <stringProp name="Argument.name">LOGIN_BUTTON</stringProp>
-            <stringProp name="Argument.value">Log+in</stringProp>
+            <stringProp name="Argument.value">1000</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -78,17 +68,6 @@
         <stringProp name="HTTPSampler.connect_timeout"></stringProp>
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
       </ConfigTestElement>
-      <hashTree/>
-      <com.blazemeter.jmeter.RandomCSVDataSetConfig guiclass="com.blazemeter.jmeter.RandomCSVDataSetConfigGui" testclass="com.blazemeter.jmeter.RandomCSVDataSetConfig" testname="Random Date Config" enabled="true">
-        <stringProp name="filename">dates.csv</stringProp>
-        <stringProp name="fileEncoding">UTF-8</stringProp>
-        <stringProp name="delimiter">,</stringProp>
-        <stringProp name="variableNames">RANDOM_DATES</stringProp>
-        <boolProp name="randomOrder">true</boolProp>
-        <boolProp name="ignoreFirstLine">true</boolProp>
-        <boolProp name="rewindOnTheEndOfList">true</boolProp>
-        <boolProp name="independentListPerThread">false</boolProp>
-      </com.blazemeter.jmeter.RandomCSVDataSetConfig>
       <hashTree/>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Login Group" enabled="true">
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -202,7 +181,7 @@
                 </elementProp>
                 <elementProp name="ctl00$MainContent$LoginUser$LoginButton" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                  <stringProp name="Argument.value">${LOGIN_BUTTON}</stringProp>
+                  <stringProp name="Argument.value">Log+in</stringProp>
                   <stringProp name="Argument.metadata">=</stringProp>
                   <boolProp name="HTTPArgument.use_equals">true</boolProp>
                   <stringProp name="Argument.name">ctl00$MainContent$LoginUser$LoginButton</stringProp>
@@ -232,7 +211,7 @@
           <stringProp name="script">import java.lang.Math;
 
 
-def number_of_posts = vars.get(&quot;GENERAL_POST_NUMBER&quot;).toInteger()
+def number_of_posts = vars.get(&quot;POSTS_NUMBER&quot;).toInteger()
 def number_of_users = vars.get(&quot;USER_NUMBER&quot;).toInteger()
 def posts_per_user = (number_of_posts.intdiv(number_of_users) + 1).toString()
 
@@ -246,27 +225,48 @@ vars.put(&quot;POSTS_NUMBER&quot;, posts_per_user)
           <stringProp name="LoopController.loops">${POSTS_NUMBER}</stringProp>
         </LoopController>
         <hashTree>
+          <com.blazemeter.jmeter.RandomCSVDataSetConfig guiclass="com.blazemeter.jmeter.RandomCSVDataSetConfigGui" testclass="com.blazemeter.jmeter.RandomCSVDataSetConfig" testname="Random Date Config" enabled="true">
+            <stringProp name="filename">dates.csv</stringProp>
+            <stringProp name="fileEncoding">UTF-8</stringProp>
+            <stringProp name="delimiter">,</stringProp>
+            <stringProp name="variableNames">RANDOM_DATE_CSV</stringProp>
+            <boolProp name="randomOrder">true</boolProp>
+            <boolProp name="ignoreFirstLine">true</boolProp>
+            <boolProp name="rewindOnTheEndOfList">true</boolProp>
+            <boolProp name="independentListPerThread">false</boolProp>
+          </com.blazemeter.jmeter.RandomCSVDataSetConfig>
+          <hashTree/>
           <CounterConfig guiclass="CounterConfigGui" testclass="CounterConfig" testname="DATE_LIMIT_COUNT" enabled="true">
             <stringProp name="CounterConfig.start">0</stringProp>
-            <stringProp name="CounterConfig.end">2000</stringProp>
+            <stringProp name="CounterConfig.end"></stringProp>
             <stringProp name="CounterConfig.incr">1</stringProp>
             <stringProp name="CounterConfig.name">DATE_LIMIT_COUNT</stringProp>
             <stringProp name="CounterConfig.format"></stringProp>
             <boolProp name="CounterConfig.per_user">false</boolProp>
           </CounterConfig>
           <hashTree/>
+          <TestAction guiclass="TestActionGui" testclass="TestAction" testname="Flow Control Action Wait 200ms" enabled="true">
+            <intProp name="ActionProcessor.action">1</intProp>
+            <intProp name="ActionProcessor.target">0</intProp>
+            <stringProp name="ActionProcessor.duration">0</stringProp>
+          </TestAction>
+          <hashTree>
+            <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
+              <stringProp name="ConstantTimer.delay">200</stringProp>
+            </ConstantTimer>
+            <hashTree/>
+          </hashTree>
           <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
             <intProp name="ThroughputController.style">0</intProp>
-            <boolProp name="ThroughputController.perThread">false</boolProp>
-            <stringProp name="ThroughputController.maxThroughput">${GENERAL_POST_NUMBER}</stringProp>
+            <boolProp name="ThroughputController.perThread">true</boolProp>
+            <stringProp name="ThroughputController.maxThroughput">${POSTS_NUMBER}</stringProp>
             <stringProp name="ThroughputController.percentThroughput">${GENERAL_POST_NUMBER}</stringProp>
           </ThroughputController>
           <hashTree>
-            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Check Date Limit" enabled="true">
-              <stringProp name="scriptLanguage">groovy</stringProp>
-              <stringProp name="parameters"></stringProp>
-              <stringProp name="filename"></stringProp>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Check Date Limit" enabled="true">
               <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
               <stringProp name="script">import java.text.SimpleDateFormat
 
 void addDay(Calendar calendar, int offsetDay) {
@@ -274,8 +274,8 @@ void addDay(Calendar calendar, int offsetDay) {
 }
 
 Calendar calendar = Calendar.getInstance()
-calendar.set(2021, Calendar.JUNE, 1)
-added_days = Math.abs(new Random().nextInt() % 90) + 1
+calendar.set(2021, Calendar.SEPTEMBER, 1)
+added_days = Math.abs(new Random().nextInt() % 30) + 1
 addDay(calendar, added_days)
 
 def sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;)
@@ -285,18 +285,19 @@ def limit = vars.get(&quot;DATE_LIMIT_COUNT&quot;).toInteger()
 
 if(limit &lt;= 100)
 {
-	def random_date = vars.get(&quot;RANDOM_DATES&quot;)
-	vars.put(&quot;LOCAL_RANDOM_DATE&quot;, random_date)
+	def random_date = vars.get(&quot;RANDOM_DATE_CSV&quot;)
+	vars.put(&quot;POST_DATE&quot;, random_date)
 	log.info(&quot;less than 100 &quot;)
 }else
 {
-	vars.put(&quot;LOCAL_RANDOM_DATE&quot;, date)
+	vars.put(&quot;POST_DATE&quot;, date)
 	log.info(&quot;more than 100 &quot;)
 }
 
 vars.put(&quot;SLUG&quot;, UUID.randomUUID().toString())
 </stringProp>
-            </JSR223Sampler>
+              <stringProp name="scriptLanguage">groovy</stringProp>
+            </JSR223PreProcessor>
             <hashTree/>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Create Log Post" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
@@ -307,9 +308,9 @@ vars.put(&quot;SLUG&quot;, UUID.randomUUID().toString())
                     <stringProp name="Argument.value">{&#xd;
     &quot;Id&quot;: &quot;&quot;,&#xd;
     &quot;Title&quot;: &quot;${SLUG}&quot;,&#xd;
-    &quot;Author&quot;: &quot;Admin&quot;,&#xd;
+    &quot;Author&quot;: &quot;${USER_NAME}&quot;,&#xd;
     &quot;Content&quot;: &quot;&lt;p&gt;${__RandomString(${__Random(50,1000,)},qwertyuiopasdfghjklzxcvbnm,)}&lt;/p&gt;&quot;,&#xd;
-    &quot;DateCreated&quot;: &quot;${LOCAL_RANDOM_DATE} 00:19&quot;,&#xd;
+    &quot;DateCreated&quot;: &quot;${POST_DATE} 00:19&quot;,&#xd;
     &quot;Slug&quot;: &quot;${SLUG}&quot;,&#xd;
     &quot;Categories&quot;: [],&#xd;
     &quot;Tags&quot;: [],&#xd;
@@ -354,10 +355,6 @@ vars.put(&quot;SLUG&quot;, UUID.randomUUID().toString())
           </hashTree>
         </hashTree>
       </hashTree>
-      <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-        <stringProp name="ConstantTimer.delay">200</stringProp>
-      </ConstantTimer>
-      <hashTree/>
       <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
         <boolProp name="ResultCollector.error_logging">false</boolProp>
         <objProp>
