@@ -89,7 +89,7 @@
           <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
         </CookieManager>
         <hashTree/>
-        <OnceOnlyController guiclass="OnceOnlyControllerGui" testclass="OnceOnlyController" testname="Auth Controller" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Auth Controller" enabled="true"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Login Page - Get Auth Param" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
@@ -215,14 +215,14 @@ def number_of_posts = vars.get(&quot;POSTS_NUMBER&quot;).toInteger()
 def number_of_users = vars.get(&quot;USER_NUMBER&quot;).toInteger()
 def posts_per_user = (number_of_posts.intdiv(number_of_users) + 1).toString()
 
-vars.put(&quot;POSTS_NUMBER&quot;, posts_per_user)
+vars.put(&quot;POSTS_NUMBER_LOOP&quot;, posts_per_user)
 </stringProp>
           <stringProp name="scriptLanguage">groovy</stringProp>
         </JSR223Sampler>
         <hashTree/>
         <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">${POSTS_NUMBER}</stringProp>
+          <stringProp name="LoopController.loops">${POSTS_NUMBER_LOOP}</stringProp>
         </LoopController>
         <hashTree>
           <com.blazemeter.jmeter.RandomCSVDataSetConfig guiclass="com.blazemeter.jmeter.RandomCSVDataSetConfigGui" testclass="com.blazemeter.jmeter.RandomCSVDataSetConfig" testname="Random Date Config" enabled="true">
@@ -258,7 +258,7 @@ vars.put(&quot;POSTS_NUMBER&quot;, posts_per_user)
           </hashTree>
           <ThroughputController guiclass="ThroughputControllerGui" testclass="ThroughputController" testname="Throughput Controller" enabled="true">
             <intProp name="ThroughputController.style">0</intProp>
-            <boolProp name="ThroughputController.perThread">true</boolProp>
+            <boolProp name="ThroughputController.perThread">false</boolProp>
             <stringProp name="ThroughputController.maxThroughput">${POSTS_NUMBER}</stringProp>
             <stringProp name="ThroughputController.percentThroughput">${GENERAL_POST_NUMBER}</stringProp>
           </ThroughputController>
@@ -274,7 +274,7 @@ void addDay(Calendar calendar, int offsetDay) {
 }
 
 Calendar calendar = Calendar.getInstance()
-calendar.set(2021, Calendar.SEPTEMBER, 1)
+calendar.set(2021, Calendar.OCTOBER, 1)
 added_days = Math.abs(new Random().nextInt() % 30) + 1
 addDay(calendar, added_days)
 
