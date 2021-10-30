@@ -50,25 +50,25 @@
           <elementProp name="GLOBAL_CONNECTION_TIMEOUT" elementType="Argument">
             <stringProp name="Argument.name">GLOBAL_CONNECTION_TIMEOUT</stringProp>
             <stringProp name="Argument.value">30000</stringProp>
-            <stringProp name="Argument.desc">30s</stringProp>
+            <stringProp name="Argument.desc">ms</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="GAUSSIAN_DEVIATION" elementType="Argument">
             <stringProp name="Argument.name">GAUSSIAN_DEVIATION</stringProp>
             <stringProp name="Argument.value">1000</stringProp>
-            <stringProp name="Argument.desc">1s</stringProp>
+            <stringProp name="Argument.desc">ms</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="GAUSSIAN_CONSTANT_DELAY" elementType="Argument">
             <stringProp name="Argument.name">GAUSSIAN_CONSTANT_DELAY</stringProp>
             <stringProp name="Argument.value">2000</stringProp>
-            <stringProp name="Argument.desc">2s</stringProp>
+            <stringProp name="Argument.desc">ms</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="SCRIPT_TIME_DURATION" elementType="Argument">
             <stringProp name="Argument.name">SCRIPT_TIME_DURATION</stringProp>
             <stringProp name="Argument.value">60</stringProp>
-            <stringProp name="Argument.desc">30s</stringProp>
+            <stringProp name="Argument.desc">s</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="LOGIN_COUNT" elementType="Argument">
@@ -79,6 +79,12 @@
           <elementProp name="RAMP_UP" elementType="Argument">
             <stringProp name="Argument.name">RAMP_UP</stringProp>
             <stringProp name="Argument.value">1</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">s</stringProp>
+          </elementProp>
+          <elementProp name="PARALLEL_DOWNLOAD_NUMBER" elementType="Argument">
+            <stringProp name="Argument.name">PARALLEL_DOWNLOAD_NUMBER</stringProp>
+            <stringProp name="Argument.value">8</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -93,7 +99,9 @@
         <stringProp name="HTTPSampler.protocol">${PROTOCOL}</stringProp>
         <stringProp name="HTTPSampler.contentEncoding"></stringProp>
         <stringProp name="HTTPSampler.path"></stringProp>
-        <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+        <boolProp name="HTTPSampler.image_parser">true</boolProp>
+        <boolProp name="HTTPSampler.concurrentDwn">true</boolProp>
+        <stringProp name="HTTPSampler.concurrentPool">${PARALLEL_DOWNLOAD_NUMBER}</stringProp>
         <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
         <stringProp name="HTTPSampler.connect_timeout">${GLOBAL_CONNECTION_TIMEOUT}</stringProp>
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -178,7 +186,7 @@
               <stringProp name="HtmlExtractor.refname">EVENTVALIDATION</stringProp>
               <stringProp name="HtmlExtractor.expr">input[name=__EVENTVALIDATION]</stringProp>
               <stringProp name="HtmlExtractor.attribute">value</stringProp>
-              <stringProp name="HtmlExtractor.default"></stringProp>
+              <stringProp name="HtmlExtractor.default">NOT_FOUND</stringProp>
               <boolProp name="HtmlExtractor.default_empty_value">false</boolProp>
               <stringProp name="HtmlExtractor.match_number">1</stringProp>
               <stringProp name="HtmlExtractor.extractor_impl"></stringProp>
@@ -188,7 +196,7 @@
               <stringProp name="HtmlExtractor.refname">VIEWSTATE</stringProp>
               <stringProp name="HtmlExtractor.expr">input[name=__VIEWSTATE]</stringProp>
               <stringProp name="HtmlExtractor.attribute">value</stringProp>
-              <stringProp name="HtmlExtractor.default"></stringProp>
+              <stringProp name="HtmlExtractor.default">NOT_FOUND</stringProp>
               <boolProp name="HtmlExtractor.default_empty_value">false</boolProp>
               <stringProp name="HtmlExtractor.match_number">1</stringProp>
               <stringProp name="HtmlExtractor.extractor_impl"></stringProp>
@@ -198,7 +206,7 @@
               <stringProp name="HtmlExtractor.refname">GENERATOR</stringProp>
               <stringProp name="HtmlExtractor.expr">input[name=__VIEWSTATEGENERATOR]</stringProp>
               <stringProp name="HtmlExtractor.attribute">value</stringProp>
-              <stringProp name="HtmlExtractor.default"></stringProp>
+              <stringProp name="HtmlExtractor.default">NOT_FOUND</stringProp>
               <boolProp name="HtmlExtractor.default_empty_value">false</boolProp>
               <stringProp name="HtmlExtractor.match_number">1</stringProp>
               <stringProp name="HtmlExtractor.extractor_impl"></stringProp>
@@ -267,12 +275,6 @@
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
           <hashTree/>
-        </hashTree>
-        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Admin Script 10 Times" enabled="true">
-          <boolProp name="LoopController.continue_forever">true</boolProp>
-          <stringProp name="LoopController.loops">${LOGIN_COUNT}</stringProp>
-        </LoopController>
-        <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Check User Count" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments"/>
@@ -296,9 +298,16 @@
               <stringProp name="JSONPostProcessor.referenceNames">BLOG_USERS</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$.*.Profile.FirstName</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers">-1</stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
           </hashTree>
+        </hashTree>
+        <LoopController guiclass="LoopControlPanel" testclass="LoopController" testname="Admin Script 10 Times" enabled="true">
+          <boolProp name="LoopController.continue_forever">true</boolProp>
+          <stringProp name="LoopController.loops">${LOGIN_COUNT}</stringProp>
+        </LoopController>
+        <hashTree>
           <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Admin Page" enabled="true"/>
           <hashTree>
             <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Admin Page" enabled="true">
@@ -322,7 +331,7 @@
             <hashTree/>
           </hashTree>
           <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Number Of Users &gt; 20" enabled="true">
-            <stringProp name="IfController.condition">${__jexl3(${BLOG_USERS_matchNr} &gt; 20)}</stringProp>
+            <stringProp name="IfController.condition">${__groovy(${BLOG_USERS_matchNr} &gt; 20)}</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
             <boolProp name="IfController.useExpression">true</boolProp>
           </IfController>
@@ -338,7 +347,7 @@
             <hashTree/>
           </hashTree>
           <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Number Of Users &lt; 10" enabled="true">
-            <stringProp name="IfController.condition">${__jexl3(${BLOG_USERS_matchNr} &lt; 10)}</stringProp>
+            <stringProp name="IfController.condition">${__groovy(${BLOG_USERS_matchNr} &lt; 10)}</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
             <boolProp name="IfController.useExpression">true</boolProp>
           </IfController>
@@ -353,50 +362,30 @@
             </ModuleController>
             <hashTree/>
           </hashTree>
-          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Number Of User &gt;=10 &lt;= 20" enabled="true">
-            <stringProp name="IfController.condition">${__jexl3(${BLOG_USERS_matchNr} &gt;= 10 &amp;&amp; ${BLOG_USERS_matchNr} &lt;= 20)}</stringProp>
+          <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Number Of User &gt;=10  &amp;&amp; &lt;= 20" enabled="true">
+            <stringProp name="IfController.condition">${__groovy(${BLOG_USERS_matchNr} &gt;= 10 &amp;&amp; ${BLOG_USERS_matchNr} &lt;= 20)}</stringProp>
             <boolProp name="IfController.evaluateAll">false</boolProp>
             <boolProp name="IfController.useExpression">true</boolProp>
           </IfController>
           <hashTree>
-            <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Choose Add Or Delete User" enabled="true">
-              <stringProp name="scriptLanguage">groovy</stringProp>
-              <stringProp name="parameters"></stringProp>
-              <stringProp name="filename"></stringProp>
-              <stringProp name="cacheKey">true</stringProp>
-              <stringProp name="script">Random random = new Random()
-random_bool_value = Math.abs(new Random().nextInt() % 2)
-log.info(random_bool_value.toString())
-vars.put(&quot;DELETE_OR_ADD_USER_STATUS&quot;, random_bool_value.toString())</stringProp>
-            </JSR223Sampler>
-            <hashTree/>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Add User" enabled="true">
-              <stringProp name="IfController.condition"></stringProp>
-              <boolProp name="IfController.evaluateAll">false</boolProp>
-              <boolProp name="IfController.useExpression">true</boolProp>
-            </IfController>
+            <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Random Controller" enabled="true">
+              <intProp name="InterleaveControl.style">1</intProp>
+            </RandomController>
             <hashTree>
               <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Add User" enabled="true">
                 <collectionProp name="ModuleController.node_path">
                   <stringProp name="764597751">Test Plan</stringProp>
                   <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="-1013256452">Admin Script</stringProp>
+                  <stringProp name="-316245208">Store modules</stringProp>
                   <stringProp name="-1230276566">Add User</stringProp>
                 </collectionProp>
               </ModuleController>
               <hashTree/>
-            </hashTree>
-            <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Delete User" enabled="true">
-              <stringProp name="IfController.condition"></stringProp>
-              <boolProp name="IfController.evaluateAll">false</boolProp>
-              <boolProp name="IfController.useExpression">true</boolProp>
-            </IfController>
-            <hashTree>
               <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Delete User" enabled="true">
                 <collectionProp name="ModuleController.node_path">
                   <stringProp name="764597751">Test Plan</stringProp>
                   <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="-1013256452">Admin Script</stringProp>
+                  <stringProp name="-316245208">Store modules</stringProp>
                   <stringProp name="486950176">Delete User</stringProp>
                 </collectionProp>
               </ModuleController>
@@ -639,7 +628,7 @@ vars.put(&quot;DELETE_OR_ADD_USER_STATUS&quot;, random_bool_value.toString())</s
                 <elementProp name="" elementType="HTTPArgument">
                   <boolProp name="HTTPArgument.always_encode">false</boolProp>
                   <stringProp name="Argument.value">{&#xd;
-    &quot;UserName&quot;: &quot;${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}&quot;,&#xd;
+    &quot;UserName&quot;: &quot;User_${__RandomString(6,123456789,)}&quot;,&#xd;
     &quot;Email&quot;: &quot;${__RandomString(10,abcdefghijklmnopqrstuvwxyz,)}@wp.pl&quot;,&#xd;
     &quot;Password&quot;: &quot;user&quot;,&#xd;
     &quot;roles&quot;: [&#xd;
@@ -703,32 +692,6 @@ vars.put(&quot;DELETE_OR_ADD_USER_STATUS&quot;, random_bool_value.toString())</s
             <boolProp name="CookieManager.controlledByThreadGroup">false</boolProp>
           </CookieManager>
           <hashTree/>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Check User Count" enabled="true">
-            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
-              <collectionProp name="Arguments.arguments"/>
-            </elementProp>
-            <stringProp name="HTTPSampler.domain"></stringProp>
-            <stringProp name="HTTPSampler.port"></stringProp>
-            <stringProp name="HTTPSampler.protocol"></stringProp>
-            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/blog/api/users</stringProp>
-            <stringProp name="HTTPSampler.method">GET</stringProp>
-            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-            <stringProp name="HTTPSampler.response_timeout"></stringProp>
-          </HTTPSamplerProxy>
-          <hashTree>
-            <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Extract Users" enabled="true">
-              <stringProp name="JSONPostProcessor.referenceNames">USER_ID_TO_DELETE</stringProp>
-              <stringProp name="JSONPostProcessor.jsonPathExprs">$.*.Profile.FirstName</stringProp>
-              <stringProp name="JSONPostProcessor.match_numbers">0</stringProp>
-            </JSONPostProcessor>
-            <hashTree/>
-          </hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get User Data To Delete" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments"/>
@@ -737,7 +700,7 @@ vars.put(&quot;DELETE_OR_ADD_USER_STATUS&quot;, random_bool_value.toString())</s
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/blog/api/users?id=${USER_ID_TO_DELETE}</stringProp>
+            <stringProp name="HTTPSampler.path">/blog/api/users?filter=1+%3D%3D+1&amp;skip=0&amp;take=1</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -746,12 +709,14 @@ vars.put(&quot;DELETE_OR_ADD_USER_STATUS&quot;, random_bool_value.toString())</s
             <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            <stringProp name="TestPlan.comments">Take First User</stringProp>
           </HTTPSamplerProxy>
           <hashTree>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Get Body to Delete" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">BODY_TO_DELETE</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
               <stringProp name="JSONPostProcessor.match_numbers"></stringProp>
+              <stringProp name="JSONPostProcessor.defaultValues">NOT_FOUND</stringProp>
             </JSONPostProcessor>
             <hashTree/>
             <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="JSR223 PostProcessor" enabled="true">
