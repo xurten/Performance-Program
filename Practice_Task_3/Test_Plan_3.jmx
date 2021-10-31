@@ -30,6 +30,18 @@
         <stringProp name="variableNames">USER_NAME,USER_PASSWORD</stringProp>
       </CSVDataSet>
       <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Date Config" enabled="true">
+        <stringProp name="filename">dates.csv</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="variableNames">PREDEFINED_DATES</stringProp>
+        <boolProp name="ignoreFirstLine">true</boolProp>
+        <stringProp name="delimiter">,</stringProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+      </CSVDataSet>
+      <hashTree/>
       <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
         <collectionProp name="Arguments.arguments">
           <elementProp name="URL" elementType="Argument">
@@ -50,31 +62,31 @@
           <elementProp name="GLOBAL_CONNECTION_TIMEOUT" elementType="Argument">
             <stringProp name="Argument.name">GLOBAL_CONNECTION_TIMEOUT</stringProp>
             <stringProp name="Argument.value">30000</stringProp>
-            <stringProp name="Argument.desc">30s</stringProp>
+            <stringProp name="Argument.desc">ms</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="GAUSSIAN_DEVIATION" elementType="Argument">
             <stringProp name="Argument.name">GAUSSIAN_DEVIATION</stringProp>
             <stringProp name="Argument.value">1000</stringProp>
-            <stringProp name="Argument.desc">1s</stringProp>
+            <stringProp name="Argument.desc">ms</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="GAUSSIAN_CONSTANT_DELAY" elementType="Argument">
             <stringProp name="Argument.name">GAUSSIAN_CONSTANT_DELAY</stringProp>
             <stringProp name="Argument.value">2000</stringProp>
-            <stringProp name="Argument.desc">2s</stringProp>
+            <stringProp name="Argument.desc">ms</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="SCRIPT_TIME_DURATION" elementType="Argument">
             <stringProp name="Argument.name">SCRIPT_TIME_DURATION</stringProp>
             <stringProp name="Argument.value">30</stringProp>
-            <stringProp name="Argument.desc">30s</stringProp>
+            <stringProp name="Argument.desc">s</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="SCRIPT_STARTUP_DEPLAY" elementType="Argument">
             <stringProp name="Argument.name">SCRIPT_STARTUP_DEPLAY</stringProp>
             <stringProp name="Argument.value">20</stringProp>
-            <stringProp name="Argument.desc">20s</stringProp>
+            <stringProp name="Argument.desc">s</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
@@ -100,7 +112,7 @@
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
         <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
           <boolProp name="LoopController.continue_forever">false</boolProp>
-          <stringProp name="LoopController.loops">1</stringProp>
+          <intProp name="LoopController.loops">-1</intProp>
         </elementProp>
         <stringProp name="ThreadGroup.num_threads">${USER_NUMBER}</stringProp>
         <stringProp name="ThreadGroup.ramp_time">1</stringProp>
@@ -160,123 +172,127 @@
                 <collectionProp name="ModuleController.node_path">
                   <stringProp name="764597751">Test Plan</stringProp>
                   <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
+                  <stringProp name="434731141">Anonymous Script Steps</stringProp>
                   <stringProp name="-1322414027">Open Random Date</stringProp>
                 </collectionProp>
               </ModuleController>
               <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Random Page" enabled="true"/>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Random Page" enabled="true"/>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Random Page IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Random Page" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="-1322056938">Open Random Page</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Post Script IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Post Script" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="873216546">Open Post Script - Big</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
             </hashTree>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Search By Name Flow - Done" enabled="true"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Search By Name Flow" enabled="true"/>
             <hashTree>
               <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Search By Name" enabled="true">
                 <collectionProp name="ModuleController.node_path">
                   <stringProp name="764597751">Test Plan</stringProp>
                   <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
+                  <stringProp name="434731141">Anonymous Script Steps</stringProp>
                   <stringProp name="-1328009636">Search By Name</stringProp>
                 </collectionProp>
               </ModuleController>
               <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Post Script IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Post Script" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="873216546">Open Post Script - Big</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
             </hashTree>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Large Calendar Flow - Done" enabled="true"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Large Calendar Flow" enabled="true"/>
             <hashTree>
               <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Large Calendar" enabled="true">
                 <collectionProp name="ModuleController.node_path">
                   <stringProp name="764597751">Test Plan</stringProp>
                   <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
+                  <stringProp name="434731141">Anonymous Script Steps</stringProp>
                   <stringProp name="400822073">Open Large Calendar</stringProp>
                 </collectionProp>
               </ModuleController>
               <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Post Script IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Post Script" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="873216546">Open Post Script - Big</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
             </hashTree>
-            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Contacts Flow - Done" enabled="true"/>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Contacts Flow" enabled="true"/>
             <hashTree>
               <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Contact" enabled="true">
                 <collectionProp name="ModuleController.node_path">
                   <stringProp name="764597751">Test Plan</stringProp>
                   <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
+                  <stringProp name="434731141">Anonymous Script Steps</stringProp>
                   <stringProp name="411443561">Open Contacts</stringProp>
                 </collectionProp>
               </ModuleController>
               <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Post Script IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Post Script" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="873216546">Open Post Script - Big</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
             </hashTree>
             <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Home Page Flow" enabled="true"/>
             <hashTree>
@@ -289,55 +305,82 @@
                 </collectionProp>
               </ModuleController>
               <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Random Page" enabled="true"/>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Random Page" enabled="true"/>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Random Page IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Random Page" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="-1322056938">Open Random Page</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Post Script IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Post Script" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="873216546">Open Post Script - Big</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
             </hashTree>
             <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Predefinied Date Flow" enabled="true"/>
             <hashTree>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Predefinied Date" enabled="true"/>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Random Page" enabled="true"/>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Random Page" enabled="true"/>
-              <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
+              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Predefinied Date" enabled="true">
                 <collectionProp name="ModuleController.node_path">
                   <stringProp name="764597751">Test Plan</stringProp>
                   <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
+                  <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                  <stringProp name="496242019">Open Predefinied Date</stringProp>
                 </collectionProp>
               </ModuleController>
               <hashTree/>
-              <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="Go To Open Post Script" enabled="true">
-                <collectionProp name="ModuleController.node_path">
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="764597751">Test Plan</stringProp>
-                  <stringProp name="370320382">Anonymous script</stringProp>
-                  <stringProp name="873216546">Open Post Script - Big</stringProp>
-                </collectionProp>
-              </ModuleController>
-              <hashTree/>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Random Page IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Random Page" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="-1322056938">Open Random Page</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
+              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Post Script IF" enabled="true">
+                <intProp name="InterleaveControl.style">1</intProp>
+              </RandomController>
+              <hashTree>
+                <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Post Script" enabled="true">
+                  <collectionProp name="ModuleController.node_path">
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="764597751">Test Plan</stringProp>
+                    <stringProp name="434731141">Anonymous Script Steps</stringProp>
+                    <stringProp name="873216546">Open Post Script - Big</stringProp>
+                  </collectionProp>
+                </ModuleController>
+                <hashTree/>
+                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
+                <hashTree/>
+              </hashTree>
             </hashTree>
           </hashTree>
         </hashTree>
@@ -441,7 +484,7 @@ vars.put(&quot;IS_RANDOM_PAGE&quot;, random_bool_value.toString())</stringProp>
               <collectionProp name="ModuleController.node_path">
                 <stringProp name="764597751">Test Plan</stringProp>
                 <stringProp name="764597751">Test Plan</stringProp>
-                <stringProp name="370320382">Anonymous script</stringProp>
+                <stringProp name="434731141">Anonymous Script Steps</stringProp>
                 <stringProp name="-1322043097">Open Random Post</stringProp>
               </collectionProp>
             </ModuleController>
@@ -457,7 +500,7 @@ vars.put(&quot;IS_RANDOM_PAGE&quot;, random_bool_value.toString())</stringProp>
               <collectionProp name="ModuleController.node_path">
                 <stringProp name="764597751">Test Plan</stringProp>
                 <stringProp name="764597751">Test Plan</stringProp>
-                <stringProp name="370320382">Anonymous script</stringProp>
+                <stringProp name="434731141">Anonymous Script Steps</stringProp>
                 <stringProp name="-99669050">Open First Post</stringProp>
               </collectionProp>
             </ModuleController>
@@ -551,7 +594,7 @@ vars.put(&quot;IS_RANDOM_PAGE&quot;, random_bool_value.toString())</stringProp>
             <collectionProp name="ModuleController.node_path">
               <stringProp name="764597751">Test Plan</stringProp>
               <stringProp name="764597751">Test Plan</stringProp>
-              <stringProp name="370320382">Anonymous script</stringProp>
+              <stringProp name="434731141">Anonymous Script Steps</stringProp>
               <stringProp name="-1679915457">Comment</stringProp>
             </collectionProp>
           </ModuleController>
@@ -652,7 +695,7 @@ vars.put(&quot;POST_TITLE&quot;, random_post_title.toString())
             <collectionProp name="ModuleController.node_path">
               <stringProp name="764597751">Test Plan</stringProp>
               <stringProp name="764597751">Test Plan</stringProp>
-              <stringProp name="370320382">Anonymous script</stringProp>
+              <stringProp name="434731141">Anonymous Script Steps</stringProp>
               <stringProp name="-1679915457">Comment</stringProp>
             </collectionProp>
           </ModuleController>
@@ -729,12 +772,6 @@ vars.put(&quot;POST_TITLE&quot;, random_post_title.toString())
             <stringProp name="HTTPSampler.connect_timeout"></stringProp>
             <stringProp name="HTTPSampler.response_timeout"></stringProp>
           </HTTPSamplerProxy>
-          <hashTree/>
-          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
-            <boolProp name="displayJMeterProperties">false</boolProp>
-            <boolProp name="displayJMeterVariables">true</boolProp>
-            <boolProp name="displaySystemProperties">false</boolProp>
-          </DebugSampler>
           <hashTree/>
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Comment" enabled="true"/>
@@ -934,6 +971,135 @@ vars.put(&quot;RANDOM_POST&quot;, random_post_title.toString())
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
             <stringProp name="HTTPSampler.path">${RANDOM_DATE_TITLE}</stringProp>
+            <stringProp name="HTTPSampler.method">GET</stringProp>
+            <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+            <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+            <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+            <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+            <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+            <stringProp name="HTTPSampler.response_timeout"></stringProp>
+          </HTTPSamplerProxy>
+          <hashTree/>
+        </hashTree>
+        <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Random Page" enabled="true">
+          <intProp name="InterleaveControl.style">1</intProp>
+        </RandomController>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Home Page" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Home Page Http" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">/blog</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Archive Page" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Archive Page Http" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">/blog/archive</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Contact Page" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Contact Page Http" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">/blog/contact</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Admin Page" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Admin Page Http" enabled="true">
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+                <collectionProp name="Arguments.arguments"/>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain"></stringProp>
+              <stringProp name="HTTPSampler.port"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">/blog/admin</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Predefinied Date" enabled="true"/>
+        <hashTree>
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+            <stringProp name="cacheKey">true</stringProp>
+            <stringProp name="filename"></stringProp>
+            <stringProp name="parameters"></stringProp>
+            <stringProp name="script">import org.codehaus.groovy.runtime.StringGroovyMethods
+
+def date_as_string=  vars.get(&quot;PREDEFINED_DATES&quot;).toString()
+date_with_slash = date_as_string.replaceAll(&quot;-&quot;,&quot;/&quot;)
+log.info(date_with_slash)
+vars.put(&quot;PREDEFINED_DATES_WITH_SLASH&quot;, date_with_slash)
+</stringProp>
+            <stringProp name="scriptLanguage">groovy</stringProp>
+          </JSR223PreProcessor>
+          <hashTree/>
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Predefinied Date Http" enabled="true">
+            <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+              <collectionProp name="Arguments.arguments"/>
+            </elementProp>
+            <stringProp name="HTTPSampler.domain"></stringProp>
+            <stringProp name="HTTPSampler.port"></stringProp>
+            <stringProp name="HTTPSampler.protocol"></stringProp>
+            <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+            <stringProp name="HTTPSampler.path">/blog/${PREDEFINED_DATES_WITH_SLASH}/default</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
