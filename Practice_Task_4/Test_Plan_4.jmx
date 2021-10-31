@@ -700,7 +700,7 @@
             <stringProp name="HTTPSampler.port"></stringProp>
             <stringProp name="HTTPSampler.protocol"></stringProp>
             <stringProp name="HTTPSampler.contentEncoding"></stringProp>
-            <stringProp name="HTTPSampler.path">/blog/api/users?filter=1+%3D%3D+1&amp;skip=0&amp;take=1</stringProp>
+            <stringProp name="HTTPSampler.path">/blog/api/users?filter=1+%3D%3D+1&amp;skip=${BLOG_USERS_MATCH_NR_SKIP}&amp;take=1</stringProp>
             <stringProp name="HTTPSampler.method">GET</stringProp>
             <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
             <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
@@ -712,6 +712,17 @@
             <stringProp name="TestPlan.comments">Take First User</stringProp>
           </HTTPSamplerProxy>
           <hashTree>
+            <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+              <stringProp name="cacheKey">true</stringProp>
+              <stringProp name="filename"></stringProp>
+              <stringProp name="parameters"></stringProp>
+              <stringProp name="script">def users_number=  vars.get(&quot;BLOG_USERS_matchNr&quot;).toInteger()
+skip_user_number = users_number - 1
+vars.put(&quot;BLOG_USERS_MATCH_NR_SKIP&quot;, skip_user_number.toString())
+log.info(skip_user_number)</stringProp>
+              <stringProp name="scriptLanguage">groovy</stringProp>
+            </JSR223PreProcessor>
+            <hashTree/>
             <JSONPostProcessor guiclass="JSONPostProcessorGui" testclass="JSONPostProcessor" testname="Get Body to Delete" enabled="true">
               <stringProp name="JSONPostProcessor.referenceNames">BODY_TO_DELETE</stringProp>
               <stringProp name="JSONPostProcessor.jsonPathExprs">$</stringProp>
@@ -828,6 +839,12 @@ log.info(body_to_delete)</stringProp>
             </HeaderManager>
             <hashTree/>
           </hashTree>
+          <DebugSampler guiclass="TestBeanGUI" testclass="DebugSampler" testname="Debug Sampler" enabled="true">
+            <boolProp name="displayJMeterProperties">false</boolProp>
+            <boolProp name="displayJMeterVariables">true</boolProp>
+            <boolProp name="displaySystemProperties">false</boolProp>
+          </DebugSampler>
+          <hashTree/>
         </hashTree>
       </hashTree>
     </hashTree>
