@@ -18,18 +18,6 @@
         <boolProp name="CacheManager.controlledByThread">false</boolProp>
       </CacheManager>
       <hashTree/>
-      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Users Config" enabled="true">
-        <stringProp name="delimiter">,</stringProp>
-        <stringProp name="fileEncoding">UTF-8</stringProp>
-        <stringProp name="filename">users.csv</stringProp>
-        <boolProp name="ignoreFirstLine">true</boolProp>
-        <boolProp name="quotedData">false</boolProp>
-        <boolProp name="recycle">true</boolProp>
-        <stringProp name="shareMode">shareMode.all</stringProp>
-        <boolProp name="stopThread">false</boolProp>
-        <stringProp name="variableNames">USER_NAME,USER_PASSWORD</stringProp>
-      </CSVDataSet>
-      <hashTree/>
       <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Date Config" enabled="true">
         <stringProp name="filename">dates.csv</stringProp>
         <stringProp name="fileEncoding"></stringProp>
@@ -89,6 +77,16 @@
             <stringProp name="Argument.desc">s</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
+          <elementProp name="PARALLEL_DOWNLOADS_NUMBER" elementType="Argument">
+            <stringProp name="Argument.name">PARALLEL_DOWNLOADS_NUMBER</stringProp>
+            <stringProp name="Argument.value">8</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="CAPTCHA" elementType="Argument">
+            <stringProp name="Argument.name">CAPTCHA</stringProp>
+            <stringProp name="Argument.value">24f30fc6-51eb-45c6-907c-b654d9a75f0c</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
         </collectionProp>
       </Arguments>
       <hashTree/>
@@ -102,7 +100,8 @@
         <stringProp name="HTTPSampler.contentEncoding"></stringProp>
         <stringProp name="HTTPSampler.path"></stringProp>
         <boolProp name="HTTPSampler.image_parser">true</boolProp>
-        <stringProp name="HTTPSampler.concurrentPool">6</stringProp>
+        <boolProp name="HTTPSampler.concurrentDwn">true</boolProp>
+        <stringProp name="HTTPSampler.concurrentPool">${PARALLEL_DOWNLOADS_NUMBER}</stringProp>
         <stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
         <stringProp name="HTTPSampler.connect_timeout">${GLOBAL_CONNECTION_TIMEOUT}</stringProp>
         <stringProp name="HTTPSampler.response_timeout"></stringProp>
@@ -177,9 +176,22 @@
                 </collectionProp>
               </ModuleController>
               <hashTree/>
-              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Random Page IF" enabled="true">
-                <intProp name="InterleaveControl.style">1</intProp>
-              </RandomController>
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Bool Random Page" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="cacheKey">true</stringProp>
+                <stringProp name="script">Random random = new Random()
+random_bool_value = Math.abs(new Random().nextInt() % 0) + 1
+log.info(random_bool_value)
+vars.put(&quot;IS_RANDOM_PAGE_DATE_FLOW&quot;, random_bool_value.toString())</stringProp>
+              </JSR223Sampler>
+              <hashTree/>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Open Random Page IF" enabled="true">
+                <stringProp name="IfController.condition">${__jexl3(${IS_RANDOM_PAGE_DATE_FLOW} == 1)}</stringProp>
+                <boolProp name="IfController.evaluateAll">false</boolProp>
+                <boolProp name="IfController.useExpression">true</boolProp>
+              </IfController>
               <hashTree>
                 <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Random Page" enabled="true">
                   <collectionProp name="ModuleController.node_path">
@@ -190,12 +202,23 @@
                   </collectionProp>
                 </ModuleController>
                 <hashTree/>
-                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
-                <hashTree/>
               </hashTree>
-              <RandomController guiclass="RandomControlGui" testclass="RandomController" testname="Open Post Script IF" enabled="true">
-                <intProp name="InterleaveControl.style">1</intProp>
-              </RandomController>
+              <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Bool Poste Script" enabled="true">
+                <stringProp name="scriptLanguage">groovy</stringProp>
+                <stringProp name="parameters"></stringProp>
+                <stringProp name="filename"></stringProp>
+                <stringProp name="cacheKey">true</stringProp>
+                <stringProp name="script">Random random = new Random()
+random_bool_value = Math.abs(new Random().nextInt() % 0) + 1
+log.info(random_bool_value)
+vars.put(&quot;IS_RANDOM_PAGE_POST_SCRIPT&quot;, random_bool_value.toString())</stringProp>
+              </JSR223Sampler>
+              <hashTree/>
+              <IfController guiclass="IfControllerPanel" testclass="IfController" testname="Open Post Script IF" enabled="true">
+                <stringProp name="IfController.condition">${__jexl3(${IS_RANDOM_PAGE_POST_SCRIPT} == 1)}</stringProp>
+                <boolProp name="IfController.evaluateAll">false</boolProp>
+                <boolProp name="IfController.useExpression">true</boolProp>
+              </IfController>
               <hashTree>
                 <ModuleController guiclass="ModuleControllerGui" testclass="ModuleController" testname="If Yes Go To Open Post Script" enabled="true">
                   <collectionProp name="ModuleController.node_path">
@@ -205,8 +228,6 @@
                     <stringProp name="873216546">Open Post Script - Big</stringProp>
                   </collectionProp>
                 </ModuleController>
-                <hashTree/>
-                <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="If No Do Nothing" enabled="true"/>
                 <hashTree/>
               </hashTree>
             </hashTree>
@@ -463,7 +484,7 @@
       <hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Post Script - Big" enabled="true"/>
         <hashTree>
-          <JSR223Sampler guiclass="TestBeanGUI" testclass="JSR223Sampler" testname="Choose First Or Random Page" enabled="true">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="Choose First Or Random Page PreProcessor" enabled="true">
             <stringProp name="scriptLanguage">groovy</stringProp>
             <stringProp name="parameters"></stringProp>
             <stringProp name="filename"></stringProp>
@@ -472,7 +493,7 @@
 random_bool_value = Math.abs(new Random().nextInt() % 0) + 1
 log.info(random_bool_value)
 vars.put(&quot;IS_RANDOM_PAGE&quot;, random_bool_value.toString())</stringProp>
-          </JSR223Sampler>
+          </JSR223PreProcessor>
           <hashTree/>
           <IfController guiclass="IfControllerPanel" testclass="IfController" testname="If Random Post" enabled="true">
             <stringProp name="IfController.condition">${__jexl3(${IS_RANDOM_PAGE} == 1)}</stringProp>
@@ -509,7 +530,7 @@ vars.put(&quot;IS_RANDOM_PAGE&quot;, random_bool_value.toString())</stringProp>
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Home Page" enabled="true"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Home Page /blog" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Home Page" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
@@ -819,7 +840,7 @@ vars.put(&quot;IS_COMMENT&quot;, random_bool_value.toString())</stringProp>
                   </elementProp>
                   <elementProp name="ctl00$cphBody$ucCommentList$hfCaptcha" elementType="HTTPArgument">
                     <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                    <stringProp name="Argument.value">24f30fc6-51eb-45c6-907c-b654d9a75f0c</stringProp>
+                    <stringProp name="Argument.value">${CAPTCHA}</stringProp>
                     <stringProp name="Argument.metadata">=</stringProp>
                     <boolProp name="HTTPArgument.use_equals">true</boolProp>
                     <stringProp name="Argument.name">ctl00$cphBody$ucCommentList$hfCaptcha</stringProp>
@@ -852,7 +873,7 @@ vars.put(&quot;IS_COMMENT&quot;, random_bool_value.toString())</stringProp>
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Search By Name" enabled="true"/>
         <hashTree>
-          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Home Page /blog" enabled="true">
+          <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Open Home Page" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
               <collectionProp name="Arguments.arguments"/>
             </elementProp>
@@ -1077,7 +1098,7 @@ vars.put(&quot;RANDOM_POST&quot;, random_post_title.toString())
         </hashTree>
         <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Open Predefinied Date" enabled="true"/>
         <hashTree>
-          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="JSR223 PreProcessor" enabled="true">
+          <JSR223PreProcessor guiclass="TestBeanGUI" testclass="JSR223PreProcessor" testname="PREDEFINED_DATES PreProcessor" enabled="true">
             <stringProp name="cacheKey">true</stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="parameters"></stringProp>
